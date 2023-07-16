@@ -1,7 +1,6 @@
 import AudioRecorder from 'node-audiorecorder';
 import fs from 'fs';
 import stream from 'node:stream';
-import streamPromises from 'node:stream/promises';
 
 /**
  * inputFileName - relative or absolute path to input file, optional
@@ -39,7 +38,7 @@ export async function getAudioStream(options?: AudioJenkinsOptions) {
   if (options?.outputFileName) {
     const fileOutputStream = fs.createWriteStream(`samples/${options.outputFileName}`);
 
-    await streamPromises.pipeline(inputStream, fileOutputStream);
+    inputStream.pipe(fileOutputStream);
   }
 
   return inputStream;
