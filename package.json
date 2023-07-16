@@ -1,10 +1,11 @@
 {
   "name": "audiojenkins",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Small utility for testing speech recognition. Can record from mic into file, play file as audio stream or play mic output as audio stream.",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "node -r ts-node/register src/index.ts"
+    "start": "node -r ts-node/register src/index.ts",
+    "prepublish": "tsc"
   },
   "engines": {
     "node": "18.16.1",
@@ -18,5 +19,6 @@
   },
   "dependencies": {
     "node-audiorecorder": "^3.0.0"
-  }
+  },
+  "types": "dist/index.d.ts"
 }

@@ -18,11 +18,11 @@ export interface AudioJenkinsOptions {
   audioRecorderOptions?: object;
 }
 
-export async function getAudioStream(options: AudioJenkinsOptions) {
+export async function getAudioStream(options?: AudioJenkinsOptions) {
   let inputStream: stream.Readable;
 
-  if (options.inputFileName === undefined) {
-    const audioRecorder = new AudioRecorder(options.audioRecorderOptions, console);
+  if (options?.inputFileName === undefined) {
+    const audioRecorder = new AudioRecorder(options?.audioRecorderOptions, console);
 
     audioRecorder.on('error', function (error) {
       console.error('Recording error:', error);
@@ -36,7 +36,7 @@ export async function getAudioStream(options: AudioJenkinsOptions) {
     inputStream = fs.createReadStream(options.inputFileName);
   }
 
-  if (options.outputFileName) {
+  if (options?.outputFileName) {
     const fileOutputStream = fs.createWriteStream(`samples/${options.outputFileName}`);
 
     await streamPromises.pipeline(inputStream, fileOutputStream);
