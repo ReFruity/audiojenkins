@@ -1,20 +1,46 @@
 import AudioRecorder from 'node-audiorecorder';
 import fs from 'fs';
-import stream from 'node:stream/promises';
+import stream from 'node:stream';
+import streamPromises from 'node:stream/promises';
 
-async function start() {
-  const audioRecorder = new AudioRecorder({}, console);
-
-  audioRecorder.on('error', function (error) {
-    console.error('Recording error:', error);
-  });
-  audioRecorder.on('end', function () {
-    console.log('Recording ended.');
-  });
-
-  const audioRecorderStream = await audioRecorder.start().stream();
-  const fileStream = fs.createWriteStream('samples/audio.wav');
-  await stream.pipeline(audioRecorderStream, fileStream);
+/**
+ * inputFileName - relative or absolute path to input file, optional
+ *
+ * outputFileName - output file name with extension, this file will be placed in samples folder, optional
+ *
+ * audioRecorderOptions - node-audiorecorder options, optional
+ *
+ * [Example of audioRecorderOptions](https://github.com/RedKenrok/node-audiorecorder#constructor)
+ */
+export interface AudioJenkinsOptions {
+  inputFileName?: string;
+  outputFileName?: string;
+  audioRecorderOptions?: object;
 }
 
-start().catch(console.error);
+export async function getAudioStream(options: AudioJenkinsOptions) {
+  let inputStream: stream.Readable;
+
+  if (options.inputFileName === undefined) {
+    const audioRecorder = new AudioRecorder(options.audioRecorderOptions, console);
+
+    audioRecorder.on('error', function (error) {
+      console.error('Recording error:', error);
+    });
+    audioRecorder.on('end', function () {
+      console.log('Recording ended.');
+    });
+
+    inputStream = await audioRecorder.start().stream();
+  } else {
+    inputStream = fs.createReadStream(options.inputFileName);
+  }
+
+  if (options.outputFileName) {
+    const fileOutputStream = fs.createWriteStream(`samples/${options.outputFileName}`);
+
+    await streamPromises.pipeline(inputStream, fileOutputStream);
+  }
+
+  return inputStream;
+}

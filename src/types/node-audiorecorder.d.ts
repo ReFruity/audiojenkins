@@ -1,3 +1,5 @@
+// This file is generated via typescript
+// https://www.typescriptlang.org/docs/handbook/declaration-files/dts-from-js.html
 declare module 'node-audiorecorder' {
     /// <reference types="node" />
     /// <reference types="node" />

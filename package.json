@@ -17,7 +17,6 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "commander": "^11.0.0",
     "node-audiorecorder": "^3.0.0"
   }
 }
