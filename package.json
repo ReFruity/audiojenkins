@@ -1,6 +1,6 @@
 {
   "name": "audiojenkins",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Small utility for testing speech recognition. Can record from mic into file, play file as audio stream or play mic output as audio stream.",
   "main": "dist/index.js",
   "scripts": {
