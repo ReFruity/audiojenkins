@@ -17,6 +17,10 @@ export interface AudioJenkinsOptions {
   audioRecorderOptions?: object;
 }
 
+// This is data chunk size of output audio stream of node-audiorecorder in bytes
+// Seems that it cannot be changed via options
+const highWaterMark = 8192;
+
 export async function getAudioStream(options?: AudioJenkinsOptions) {
   let inputStream: stream.Readable;
 
@@ -32,7 +36,8 @@ export async function getAudioStream(options?: AudioJenkinsOptions) {
 
     inputStream = await audioRecorder.start().stream();
   } else {
-    inputStream = fs.createReadStream(options.inputFileName);
+    // We use the same highwatermark (chunk size) as for microphone output for consistency
+    inputStream = fs.createReadStream(options.inputFileName, { highWaterMark });
   }
 
   if (options?.outputFileName) {
