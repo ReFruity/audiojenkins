@@ -1,6 +1,6 @@
 # Audio Jenkins
 
-This is a small utility package to help with speech recognition programmes. It can record audio from microphone into file, play recorder file into ReadbleStream and return it, or just play microphone output into ReadbleStream.
+This is a small utility package to help with speech recognition programmes. It can record audio from microphone into file, play recorded file into ReadbleStream and return it, or just play microphone output into ReadbleStream.
 
 ## Dependencies
 
@@ -8,7 +8,23 @@ This is a small utility package to help with speech recognition programmes. It c
 
 ## Usage
 
+Stream microphone output in `audioStream` and in file. 
+
 ```typescript
 import * as AudioJenkins from 'audiojenkins';
-const audioStream = await AudioJenkins.getAudioStream({ outputFileName: 'audio.wav' });
+const audioStream = await AudioJenkins.getAudioStream(
+  { 
+    outputFileName: 'audio.wav',
+    audioRecorderOptions: {
+      silence: 0,
+    }
+  }
+);
+```
+
+Stream audio file in `audioStream`. Yoi should not use `inputFileName` option with other options.
+
+```typescript
+import * as AudioJenkins from 'audiojenkins';
+const audioStream = await AudioJenkins.getAudioStream({ inputFileName: 'audio.wav' });
 ```
