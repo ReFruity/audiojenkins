@@ -28,3 +28,19 @@ Stream audio file in `audioStream`. Yoi should not use `inputFileName` option wi
 import * as AudioJenkins from 'audiojenkins';
 const audioStream = await AudioJenkins.getAudioStream({ inputFileName: 'audio.wav' });
 ```
+
+## Development
+
+- Make changes to audiojenkins
+- Create a tarball
+
+```bash
+mkdir ~/npm-packages
+npm run pack
+```
+
+- Use tarball in `package.json` in some other project
+
+```bash
+"audiojenkins": "file:~/npm-packages/audiojenkins-[version].tgz",
+```
